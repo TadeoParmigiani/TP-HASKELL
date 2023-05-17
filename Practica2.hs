@@ -121,4 +121,6 @@ maximun (NODO d r g)
     |  maximun g >= maximun d = maximun g
     |otherwise = maximun d
 --B--
-
+checkBST :: BST a -> Bool
+checkBST Empty = False
+checkBST (NODO _ r _) = True
