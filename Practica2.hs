@@ -103,24 +103,49 @@ seval (div a b) = Just (seval a ‘div‘ seval b)
 
 
 --5--
---A--
-data BST a = Empty | NODO (BST a) a (BST a) deriving Show
-e1 = NODO (NODO Empty 5 Empty) 3 (NODO (NODO Empty 9 Empty) 7 (NODO Empty 5 Empty))
+inorder :: Bin a → [a ]
+inorder Hoja = [ ]
+inorder (Nodo l a r ) = inorder l ++ [a ] ++ inorder r
 
-maximun :: Ord a => BST a -> a
-maximun Empty = error "Arbol vacio"
-maximun (NODO Empty r Empty) = r
-maximun (NODO Empty r g)
-    | r >= maximun g = r
-    | otherwise = maximun g
-maximun (NODO d r Empty)
-    | r >= maximun d = r
-    | otherwise = maximun d
-maximun (NODO d r g)
-    | (r >= maximun g) && (r >= maximun d) = r
-    |  maximun g >= maximun d = maximun g
-    |otherwise = maximun d
+member :: Ord a ⇒ a → Bin a → Bool
+member a Hoja = False
+member a (Nodo l b r ) | a ≡ b = True
+                       | a < b = member a l
+                       | a > b = member a r
+
+insert :: Ord a ⇒ a → Bin a → Bin a
+insert a Hoja = Nodo Hoja a Hoja
+insert a (Nodo l b r ) | a 6 b = Nodo (insert a l) b r
+                       | otherwise = Nodo l b (insert a r )
+
+altura H = 0
+altura (N l x r) = 1 + max (altura l) (altura r)
+
+delete :: Ord a ⇒ a → Bin a → Bin a
+delete Hoja = Hoja
+delete z (Nodo l b r ) | x < b = Nodo (delete z l) b r
+delete z (Nodo l b r ) | x > b = Nodo l b (delete z r )
+delete z (Nodo l b r ) | x ≡ b =
+
+minimun (NODO Empty x r) = x
+minimun (NODO l x r) = munimun l
+
+--A--
+data BST a = H | N (BST a) a (BST a) deriving Show
+e1 = N (N H 2 H) 3 (N (N H 9 H) 7 (N H 5 H))
+
+Maximun (l x H) = x
+maximun (l x r) = maximun r
+
 --B--
-checkBST :: BST a -> Bool
-checkBST Empty = False
-checkBST (NODO _ r _) = True
+CheckBST H = True
+CheckBST (N H x H) = True
+CheckBST (N H x r) = checkBST r
+		    && ((minimun r) > x)
+CheckBST (N l x h) = CheckBST l
+		   && ((maximun l) <= x)
+CheckBST (N l x h) = CheckBST l
+		     && CheckBST r 
+                     && ((minimun r) > x)
+		     && ((maximun l) <= x)
+
