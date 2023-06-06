@@ -148,4 +148,38 @@ CheckBST (N l x h) = CheckBST l
 		     && CheckBST r 
                      && ((minimun r) > x)
 		     && ((maximun l) <= x)
+--6--
+--a--
+data Tree a = H | N (Tree a) a (Tree a) deriving Show
+
+completo :: a -> Int -> Tree a
+completo x n | odd n = let t = (completo x (n-1))
+	                   in N t x t
+
+balanceado x 0 = H
+balanceado x n | odd n = let m = div (n-1) 2
+                             t = (balanceado x m)
+                             in N t x t
+               | otherwise = let m = div (n-1) 2
+                             (t1,t2) = (balanceado x m, balanceado x (m+1)
+                             in N t1 x t2
+
+--8--
+data Color = Red | Black deriving Show 
+
+data RBT a = H | N Color (RBT a) a (RBT a) deriving Show 
+
+fromOrdListc xs = arbol Black xs
+
+arbol _ [] = H
+arbol color xs = let n = length xs
+                     (l, m, r) = listaentres n xs
+                 in N color (arbol Red l) m (arbol Red r)
+
+listaentres n xs = let m = n `div` 2
+                       (l1,l2) = splitAt m xs
+                       x = head l2
+                       r = tail l2
+                    in (l1, x, r)
+
 
