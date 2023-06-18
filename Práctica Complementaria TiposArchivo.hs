@@ -31,7 +31,7 @@ enum E = [[]]
 enum (H _) = [[]]
 enum (N a b) = map (L:) (enum a) ++ map (R:) (enum b)
 
---4--
+--3--
 type Nombre = String
 type A = Int
 type Estado a = [(Nombre, A)]
@@ -54,3 +54,17 @@ free _ [] = []
 free nombre ((n,v): xs) 
                 | nombre == n = xs
                 | otherwise = free nombre ((n,v): xs)
+--4--
+data BTS a = H | N (BTS a) a (BTS a)
+e1 = N (N H 2 H) 3 (N (N H 5 H) 7 (N H 9 H))
+--a--
+calcu _ H = 0
+calcu n (N l a r) 
+            | n  == 0 = 1
+            | otherwise = calcu (n - 1) l + calcu (n - 1) r
+--b--
+altura H = 0
+altura (N l x r) = 1 + max (altura l) (altura r)
+balans (N r x l) = let n = altura r
+                       m = altura l
+                    in if (m - n) == 0 || (m - n) == 1 then True else False
