@@ -45,9 +45,10 @@ update nombre valor ((n, v): xs)
                           | otherwise = (n, v) : update nombre valor xs
 
 lookfor :: Nombre -> Estado a -> Maybe A
+lookfor nombre [] = Nothing
 lookfor nombre ((n,v):xs) 
                   | n == nombre = Just v
-                  | otherwise = Nothing
+                  | otherwise = lookfor nombre xs
 
 free :: Nombre -> Estado a -> Estado a
 free _ [] = []
