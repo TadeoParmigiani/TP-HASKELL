@@ -66,6 +66,6 @@ calcu n (N l a r)
 --b--
 altura H = 0
 altura (N l x r) = 1 + max (altura l) (altura r)
-balans (N r x l) = let n = altura r
-                       m = altura l
-                    in if (m - n) == 0 || (m - n) == 1 then True else False
+vbal (N l x r) = let i = altura l
+                     d = altura r
+                 in if 0 <= (i - d) && (i - d) <= 1 then True else False
